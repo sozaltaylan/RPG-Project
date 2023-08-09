@@ -30,17 +30,29 @@ public class PlayerManager : MonoSingleton<PlayerManager>
     private void EventSubscription()
     {
         CoreGameSignals.onPositionClicked += PositionClicked;
+        DialogueSignals.onNPCTalked += PlayerTalkedNpc;
     }
 
     private void EventUnsubscription()
     {
         CoreGameSignals.onPositionClicked -= PositionClicked;
+        DialogueSignals.onNPCTalked -= PlayerTalkedNpc;
     }
 
 
     private void PositionClicked(Vector3 hit)
     {
         playerController.MoveToClickedPosition(hit);
+    }
+
+    public Vector3 GetPlayerPosition()
+    {
+        return playerController.transform.position;
+    }
+
+    private void PlayerTalkedNpc(Transform pos)
+    {
+        playerController.LookNPC(pos);
     }
 
     #endregion

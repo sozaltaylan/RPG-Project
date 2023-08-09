@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: DialogueData
   m_EditorClassIdentifier: 
   characterName: a
-  dialogLines: []
+  dialogLines:
+  - 

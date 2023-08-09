@@ -8,6 +8,7 @@ namespace Game.Managers
     {
         #region Variables
 
+        private bool isActive = true;
 
         #region SerializeFields
 
@@ -18,6 +19,31 @@ namespace Game.Managers
 
         #endregion
 
+        #region Events
+
+
+        private void OnEnable()
+        {
+            EventSubscription();
+        }
+        private void OnDisable()
+        {
+            EventUnsubscription();
+        }
+
+        private void EventSubscription()
+        {
+            DialogueSignals.onPlayerNavigationDisable += iSActiveOrNot;
+        }
+
+        private void EventUnsubscription()
+        {
+            DialogueSignals.onPlayerNavigationDisable -= iSActiveOrNot;
+
+        }
+
+
+        #endregion
         #region Methods
         private void Update()
         {
@@ -27,31 +53,44 @@ namespace Game.Managers
 
         private void HandleUpdate()
         {
-            if (Input.GetMouseButtonDown(1))
+            if (isActive)
             {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
 
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
+                if (Input.GetMouseButtonDown(1))
                 {
-                    CoreGameSignals.onPositionClicked?.Invoke(hit.point);
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit hit;
 
-                }
-            }
-            else if (Input.GetMouseButtonDown(0))
-            {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-
-                if (Physics.Raycast(ray, out hit))
-                {
-                    if (hit.collider.TryGetComponent(out BaseNPC npc))
+                    if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
                     {
-                        npc.Interact();
+                        CoreGameSignals.onPositionClicked?.Invoke(hit.point);
+
+                    }
+                }
+                else if (Input.GetMouseButtonDown(0))
+                {
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit hit;
+
+                    if (Physics.Raycast(ray, out hit))
+                    {
+                        if (hit.collider.TryGetComponent(out FriendlyNPC friendlyNpc))
+                        {
+                            friendlyNpc.Interact();
+                        }
                     }
                 }
             }
         }
+
+
+        public void iSActiveOrNot(bool active)
+        {
+            isActive = active;
+        }
+
     }
+
+
     #endregion
 }

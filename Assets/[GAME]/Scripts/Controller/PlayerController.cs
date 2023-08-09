@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -50,6 +51,17 @@ namespace Game.Controller
             _isMoving = true;
         }
 
+        public void LookNPC(Transform target)
+        {
+            StopPlayer(true);
+            playerAnimationController.SetAnimationSpeed(0);
+            transform.DOLookAt(target.position, 1f);
+        }
+
+        public void StopPlayer(bool active)
+        {
+            navMeshAgent.isStopped = true;
+        }
         #endregion
 
 
