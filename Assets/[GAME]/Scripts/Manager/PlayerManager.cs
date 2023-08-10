@@ -30,13 +30,13 @@ public class PlayerManager : MonoSingleton<PlayerManager>
     private void EventSubscription()
     {
         CoreGameSignals.onPositionClicked += PositionClicked;
-        DialogueSignals.onNPCTalked += PlayerTalkedNpc;
+        DialogueSignals.lookNPC += LookToNpc;
     }
 
     private void EventUnsubscription()
     {
         CoreGameSignals.onPositionClicked -= PositionClicked;
-        DialogueSignals.onNPCTalked -= PlayerTalkedNpc;
+        DialogueSignals.lookNPC -= LookToNpc;
     }
 
 
@@ -50,7 +50,7 @@ public class PlayerManager : MonoSingleton<PlayerManager>
         return playerController.transform.position;
     }
 
-    private void PlayerTalkedNpc(Transform pos)
+    private void LookToNpc(Transform pos)
     {
         playerController.LookNPC(pos);
     }

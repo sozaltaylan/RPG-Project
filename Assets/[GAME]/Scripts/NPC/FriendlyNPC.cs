@@ -8,31 +8,24 @@ public class FriendlyNPC : MonoBehaviour
 {
     #region Variables
 
-    public string npcName;
-    public string[] dialogue;
 
     private float dialogueDistance = 3f;
 
-    [SerializeField] private DialogueData dialogueData;
-    [SerializeField] private CinemachineVirtualCamera npcCamera;
+    [SerializeField] private DialogueController dialogueController;
 
     #endregion
 
     #region Methods
-    private void Start()
-    {
-        npcName = dialogueData.characterName;
-        dialogue = dialogueData.dialogLines;
-    }
     public void Interact()
     {
 
         if (IsWithinDialogueDistance())
         {
             CameraSignals.cameraState?.Invoke(CameraAnimationState.isNpc, true);
-            DialogueSignals.onNPCTalked?.Invoke(this.transform);
+            DialogueSignals.lookNPC?.Invoke(this.transform);
             DialogueSignals.onPlayerNavigationDisable?.Invoke(false);
-
+            DialogueSignals.openDialogueBox(true);
+            dialogueController.StartDialogue();
         }
     }
 

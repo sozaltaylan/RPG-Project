@@ -44,6 +44,7 @@ namespace Game.Managers
         public void StartQuest(QuestData quest)
         {
             activeQuests.Add(quest);
+
         }
         public void CompleteQuest(QuestData quest)
         {
