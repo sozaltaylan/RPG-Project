@@ -74,13 +74,26 @@ namespace Game.Managers
 
                     if (Physics.Raycast(ray, out hit))
                     {
-                        if (hit.collider.TryGetComponent(out FriendlyNPC friendlyNpc))
+                        if (hit.collider.TryGetComponent(out FriendlyNPCBase friendlyNpc))
                         {
                             friendlyNpc.Interact();
                         }
                     }
                 }
             }
+            else if (!isActive)
+            {
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+
+                    if (DialogueManager.Instance.ChechkDialogue())
+                    {
+                        DialogueSignals.onPressSpace?.Invoke();
+                    }
+
+                }
+            }
+
         }
 
 

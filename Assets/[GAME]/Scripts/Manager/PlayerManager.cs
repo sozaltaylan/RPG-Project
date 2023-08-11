@@ -49,10 +49,14 @@ public class PlayerManager : MonoSingleton<PlayerManager>
     {
         return playerController.transform.position;
     }
-
-    private void LookToNpc(Transform pos)
+    public Transform GetPlayerTransform()
     {
-        playerController.LookNPC(pos);
+        return playerController.transform;
+    }
+
+    private void LookToNpc(Transform pos,bool active)
+    {
+        playerController.LookNPC(pos, active);
     }
 
     #endregion

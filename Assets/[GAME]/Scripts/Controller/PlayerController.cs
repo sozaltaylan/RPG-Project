@@ -51,16 +51,16 @@ namespace Game.Controller
             _isMoving = true;
         }
 
-        public void LookNPC(Transform target)
+        public void LookNPC(Transform target,bool active)
         {
-            StopPlayer(true);
+            StopPlayer(active);
             playerAnimationController.SetAnimationSpeed(0);
             transform.DOLookAt(target.position, 1f);
         }
 
         public void StopPlayer(bool active)
         {
-            navMeshAgent.isStopped = true;
+            navMeshAgent.isStopped = active;
         }
         #endregion
 

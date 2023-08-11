@@ -22,6 +22,8 @@ namespace Game.Managers
 
         public GameObject dialogueBox;
 
+        private bool isDialogueOpen;
+
         #endregion
 
         #region Events
@@ -37,11 +39,14 @@ namespace Game.Managers
         private void EventSubscription()
         {
             DialogueSignals.openDialogueBox += OpenDialogue;
+            DialogueSignals.onPressSpace += NextMessage;
         }
 
         private void EventUnsubscription()
         {
             DialogueSignals.openDialogueBox -= OpenDialogue;
+            DialogueSignals.onPressSpace -= NextMessage;
+
         }
 
 
@@ -53,7 +58,7 @@ namespace Game.Managers
         public void OpenDialogue(bool active)
         {
             dialogueBox.SetActive(active);
-
+            isDialogueOpen = true;
         }
 
         public void SetDialogueContent(Message[] messages, Actor[] actors)
@@ -75,6 +80,31 @@ namespace Game.Managers
             actorName.text = displayToActor.name;
             actorImage.sprite = displayToActor.sprite;
 
+        }
+        private void NextMessage()
+        {
+            activeMessage++;
+            if (activeMessage < currentMesage.Length)
+            {
+                DisplayMessage();
+            }
+            else
+            {
+                FinishDialogue();
+            }
+        }
+
+        public bool ChechkDialogue()
+        {
+            return isDialogueOpen;
+        }
+        
+        private void FinishDialogue()
+        {
+            dialogueBox.SetActive(false);
+            CameraSignals.cameraState?.Invoke(CameraAnimationState.isNpc, false);
+            DialogueSignals.onPlayerNavigationDisable?.Invoke(true);
+            DialogueSignals.lookNPC(PlayerManager.Instance.GetPlayerTransform(), false);
         }
 
         #endregion

@@ -4,32 +4,33 @@ using Game.Signals;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class FriendlyNPC : MonoBehaviour
+public class FriendlyNPCBase : MonoBehaviour
 {
     #region Variables
 
 
-    private float dialogueDistance = 3f;
+    protected float dialogueDistance = 3f;
 
-    [SerializeField] private DialogueController dialogueController;
+    [SerializeField] protected DialogueController dialogueController;
 
     #endregion
 
     #region Methods
-    public void Interact()
+    public virtual void Interact()
     {
 
         if (IsWithinDialogueDistance())
         {
             CameraSignals.cameraState?.Invoke(CameraAnimationState.isNpc, true);
-            DialogueSignals.lookNPC?.Invoke(this.transform);
+            DialogueSignals.lookNPC?.Invoke(this.transform, true);
             DialogueSignals.onPlayerNavigationDisable?.Invoke(false);
             DialogueSignals.openDialogueBox(true);
             dialogueController.StartDialogue();
+           
         }
     }
 
-    public bool IsWithinDialogueDistance()
+    protected virtual bool IsWithinDialogueDistance()
     {
         float distance = Vector3.Distance(this.transform.position, PlayerManager.Instance.GetPlayerPosition());
         return distance <= dialogueDistance;

@@ -44,7 +44,7 @@ namespace Game.Managers
         public void StartQuest(QuestData quest)
         {
             activeQuests.Add(quest);
-
+           
         }
         public void CompleteQuest(QuestData quest)
         {
@@ -52,7 +52,11 @@ namespace Game.Managers
             completedQuest.Add(quest);
         }
 
-
+        public int GetActiveQuestNumber()
+        {
+            return activeQuests.Count;
+        }
+       
 
 
 
